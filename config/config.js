@@ -13,7 +13,7 @@ let url;
 // if (process.env.NODE_ENV === 'dev') {
 //     url = 'mongodb://localhost:27017/cafe'
 // } else {
-url = 'mongodb+srv://admin:diegoiza27@cluster0.qyygn.mongodb.net/cafe';
+url = process.env.MONGOURL;
 // }
 
 process.env.URLDB = url;
