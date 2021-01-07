@@ -1,44 +1,18 @@
- require('../config/config')
- const express = require('express');
- const app = express();
- // une la petcion con un archivo .json
- const bodyParser = require('body-parser');
+require('../config/config')
+const express = require('express');
+const mongoose = require('mongoose');
+const app = express();
 
- // parse application/x-www-form-urlencoded
- app.use(bodyParser.urlencoded({ extended: false }))
-
- // parse application/json
- app.use(bodyParser.json())
-
- // sacar 
- app.get('/usuario', (req, res) => {
-         res.json("get usuario ")
-     })
-     // insertar
- app.post('/usuario', (req, res) => {
-         let body = req.body;
-         if (body.nombre === undefined) {
-             res.status(400).json({
-                 ok: false,
-                 mensaje: "El nombre es necesario"
-             })
-         } else {
-
-             res.json({
-                 persona: body
-             })
-         }
-     })
-     // actualizar 
- app.put('/usuario/:id', (req, res) => {
-     let id = req.params.id
-     res.json({
-         id
-     })
- })
- app.delete('/usuario', (req, res) => {
-     res.json("delete usuario ")
- })
- app.listen((process.env.PORT || 3000), () => {
-     console.log('escuando el en puerto ', process.env.PORT || 3000);
- })
+// pedimos aqui las rutas de los usuarios 
+app.use(require('../rutas/usuario'));
+// escuchadno  express en el puerto 
+app.listen(process.env.PORT || 3000, () => {
+        console.log('escuchando el en puerto ', process.env.PORT || 3000);
+    })
+    //  conectar a la base de datos de mongo DB
+mongoose.connect(process.env.URLDB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+})
